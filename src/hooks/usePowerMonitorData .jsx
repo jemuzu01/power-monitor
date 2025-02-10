@@ -14,8 +14,6 @@ const usePowerMonitorData = (data) => {
          
     const startTime = new Date(updatedDate);
     
-
-    
     const endTime = getStartTime(data?.timeRange);
 
     console.log(endTime)
