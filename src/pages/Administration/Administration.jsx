@@ -24,7 +24,7 @@ export const Administration = () => {
 
   const documents = usePowerMonitorData(data);
 
-  console.log(data)
+  console.log(documents)
 
   return (
     <>

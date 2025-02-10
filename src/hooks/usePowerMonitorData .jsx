@@ -10,19 +10,24 @@ const usePowerMonitorData = (data) => {
 
   useEffect(() => {
     // Get the start time based on the selected range
-    const updatedDate = dayjs(data?.currentDate).hour(23).minute(59).second(59);
+    const updatedDate = dayjs(data?.currentDate).hour(0).minute(0).second(0);
          
     const startTime = new Date(updatedDate);
-    const endTime = getStartTime(data?.timeRange, data?.currentDate);
+    
+
+    
+    const endTime = getStartTime(data?.timeRange);
+
+    console.log(endTime)
  
  
     const q = query(
-       collection(firestore, "power_monitor"),
-       where("department", "==", data?.department),
-       where("dateTime", "<=", startTime),
-       where("dateTime", ">=", endTime),
-       orderBy("dateTime") 
-    );
+      collection(firestore, "power_monitor"),
+      where("department", "==", data?.department),
+      where("dateTime", ">=", endTime),  // Start of range
+      // where("dateTime", "<=", endTime),    // End of range
+      orderBy("dateTime") 
+  );
  
 
     const unsubscribe = onSnapshot(q, (monitorSnapshot) => {
