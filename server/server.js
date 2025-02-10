@@ -1,6 +1,7 @@
 import express from 'express';  
 import { collection, addDoc } from 'firebase/firestore';  
 import { firestore } from '../src/firebase/firebase.js'; 
+import { Timestamp } from 'firebase/firestore';
 
 const PORT = 5000;
 const app = express();
@@ -25,6 +26,27 @@ app.post("/api/add-user", async (req, res) => {
       console.error("Error adding document:", error);
       res.status(500).json({ error: "Failed to add user" });
     }
+});
+
+app.post("/api/power-monitor", async (req, res) => {
+  try {
+    const { current,department,power,voltage } = req.body;
+
+    const powerMonitor = collection(firestore, "power_monitor");
+
+    const docRef = await addDoc(powerMonitor, { 
+      current, 
+      dateTime: Timestamp.fromDate(new Date()),
+      department, 
+      power, 
+      voltage 
+    });
+
+    res.status(200).json({ message: "Stats added", id: docRef.id });
+  } catch (error) {
+    console.error("Error adding document:", error);
+    res.status(500).json({ error: "Failed to add user" });
+  }
 });
 
 app.listen(PORT, () => {

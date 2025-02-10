@@ -7,7 +7,7 @@ function SideNav() {
   return (
     <Box sx={{flexDirection:'column',width:'100%'}} flexGrow={1}>
      <Box  sx={{marginTop:'20px'}}>
-        <Typography  variant="h5" textAlign={'center'} color='#FFF'>MONITOR</Typography>
+        <Typography  variant="h5" textAlign={'center'} sx={{fontWeight:'900'}} color='#FFF'>MONITOR</Typography>
      </Box>   
      <List sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       {navItems.map((item, index) => (

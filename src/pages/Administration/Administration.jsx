@@ -1,31 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { firestore } from '../../firebase/firebase';
-import { collection, getDocs } from 'firebase/firestore'; 
+import React, { useState,useEffect } from 'react';
+
 import { Statistic } from '../../components/Statistic/Statistic';
+import { HeaderBtn } from '../../components/HeaderBtn/HeaderBtn';
+import Grid from '@mui/material/Grid2'
+import usePowerMonitorData from '../../hooks/usePowerMonitorData ';
+import dayjs from 'dayjs';
+
 
 export const Administration = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    department: "ADMINISTRATION",
+    monitor: "POWER",
+    timeRange: "24h",
+    currentDate: dayjs().toDate(),
+  });
+  
+  const onChangeType  = (newData) => {
+    setData((prevData) => ({
+      ...prevData, 
+      ...newData,
+    }));
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(firestore, "test")); // Replace with your collection name
-        console.log("Firestore connected successfully!");
-        querySnapshot.forEach((doc) => {
-          console.log(`${doc.id} =>`, doc.data());
-        });
-      } catch (error) {
-        console.error("Error connecting to Firestore:", error);
-      }
-    };
+  const documents = usePowerMonitorData(data);
 
-    fetchData();
-  }, []); // Empty dependency array ensures the effect runs once
+  console.log(data)
 
   return (
-    <div>
-      <Statistic />
-    </div>
+    <>
+    <Grid sx={{display:'flex',flexDirection:'column',height:'100%',gap:'30px'}}>
+      <HeaderBtn onDataChange={onChangeType}/>
+      <Statistic statistic={documents}/>
+    </Grid>
+    </>
   );
 };
 

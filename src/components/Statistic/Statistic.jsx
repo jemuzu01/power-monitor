@@ -1,30 +1,34 @@
-import { Box } from '@mui/material';
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Area, AreaChart,LinearGradient,Stop, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-
-export const Statistic = () => {
-    const data = [
-        { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
-        { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
-        { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-        { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-        { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-      ];
-    return (
-        <>
-        <Box>
-            <ResponsiveContainer width={500} height={500}>
-            <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-              {/* Position YAxis to the right */}
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-            </LineChart>
-            </ResponsiveContainer>
-      </Box>
+export const Statistic = ({statistic}) => {
+  return (
+    <>
+    <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          height={400}
+          data={statistic}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid stroke="#ccc" strokeDasharray="1 1" />
+          <YAxis orientation="right" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <defs>
+          <linearGradient id="uvGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="50%" stopColor="#FFD5D3 " stopOpacity={0.8} />
+            <stop offset="100%" stopColor="#FF6662" stopOpacity={0} />
+          </linearGradient>
+          </defs>
+          <Area type="monotone" dataKey="type" stroke="#94071D" fill="url(#uvGradient)" strokeWidth={3} />
+        </AreaChart>
+      </ResponsiveContainer>
       </>
-    );
-  };
+  );
+};
