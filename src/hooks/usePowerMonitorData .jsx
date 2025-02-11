@@ -35,15 +35,15 @@ const usePowerMonitorData = (data) => {
        });
  
        if (data?.monitor === "POWER") {
-          const powerValues = docs.map(doc => ({ type: doc.power }));
+          const powerValues = docs.map(doc => ({ Output: doc.power,dateTime:doc?.dateTime.toDate() }));
           setDocuments(powerValues);
        }
        if (data?.monitor === "VOLTAGE") {
-          const voltageValues = docs.map(doc => ({ type: doc.voltage }));
+          const voltageValues = docs.map(doc => ({ Output: doc.voltage,dateTime:doc?.dateTime.toDate() }));
           setDocuments(voltageValues);
        }
        if (data?.monitor === "CURRENT") {
-          const currentValues = docs.map(doc => ({ type: doc.current }));
+          const currentValues = docs.map(doc => ({ Output: doc.current,dateTime:doc?.dateTime.toDate() }));
           setDocuments(currentValues);
        }
     });
