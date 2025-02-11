@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 export const Italian = () => {
   const [data, setData] = useState({
-    department:"ELECTRICAL",
+    department:"ITALIAN",
     monitor:"POWER",
     timeRange:"24h",
     currentDate: dayjs().toDate(),
