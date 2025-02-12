@@ -95,7 +95,7 @@ export const HeaderBtn = ({ onDataChange }) => {
             ))}
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            <Button sx={buttonStyles} variant="text">LOG</Button>
+            {/* <Button sx={buttonStyles} variant="text">LOG</Button> */}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <IconButton onClick={handleIconClick}>
                 <CalendarTodayIcon />
@@ -115,8 +115,8 @@ export const HeaderBtn = ({ onDataChange }) => {
                 </Box>
               </Popper>
             </LocalizationProvider>
-            <Button sx={buttonStyles} variant="text"><DownloadIcon /></Button>
-            <Button sx={buttonStyles} variant="text"><AspectRatioIcon /></Button>
+            {/* <Button sx={buttonStyles} variant="text"><DownloadIcon /></Button>
+            <Button sx={buttonStyles} variant="text"><AspectRatioIcon /></Button> */}
           </Box>
         </Grid>
       </Grid>
