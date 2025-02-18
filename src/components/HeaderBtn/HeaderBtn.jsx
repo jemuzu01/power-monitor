@@ -1,14 +1,11 @@
 import { Box, Button, Typography, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import Grid from '@mui/material/Grid2';
-import DownloadIcon from '@mui/icons-material/Download';
-import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { IconButton, Popper } from "@mui/material";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 import dayjs from 'dayjs';
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 
 export const HeaderBtn = ({ onDataChange }) => {
   const buttonStyles = {
@@ -28,14 +25,6 @@ export const HeaderBtn = ({ onDataChange }) => {
 
   console.log("isMobile",isMobile)
 
-  const handleIconClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((prev) => !prev);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const onChangeMonitor = (monitorType) => {
     setActiveButton(monitorType);
@@ -48,7 +37,7 @@ export const HeaderBtn = ({ onDataChange }) => {
   };
 
   const selectDate = (date) => {
-    const updatedDate = dayjs(date).hour(dayjs().hour()).minute(dayjs().minute()).second(dayjs().second());
+    const updatedDate = dayjs(date);
     onDataChange({ currentDate: updatedDate });
   };
 
@@ -97,23 +86,13 @@ export const HeaderBtn = ({ onDataChange }) => {
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
             {/* <Button sx={buttonStyles} variant="text">LOG</Button> */}
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <IconButton onClick={handleIconClick}>
-                <CalendarTodayIcon />
-              </IconButton>
-              <Popper open={open} anchorEl={anchorEl} placement="bottom-start">
-                <Box sx={{ bgcolor: "background.paper", p: 1, boxShadow: 3 }}>
-                  <DesktopDatePicker
-                    value={selectedDate}
-                    onChange={(newValue) => {
-                      setSelectedDate(newValue);
-                      handleClose();
-                    }}
-                    slotProps={{
-                      textField: { sx: { display: "none" } },
-                    }}
-                  />
-                </Box>
-              </Popper>
+            <DateTimePicker
+              label="Date"
+              value={selectedDate}
+              onChange={(date) => {
+                selectDate(date);
+              }}
+            />
             </LocalizationProvider>
             {/* <Button sx={buttonStyles} variant="text"><DownloadIcon /></Button>
             <Button sx={buttonStyles} variant="text"><AspectRatioIcon /></Button> */}

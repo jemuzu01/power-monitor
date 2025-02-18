@@ -1,8 +1,12 @@
-import React from 'react';
-import { Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import { Area, AreaChart, XAxis, YAxis, CartesianGrid, Brush ,Tooltip, ResponsiveContainer } from 'recharts';
 import dayjs from 'dayjs';
 
 export const Statistic = ({ statistic }) => {
+
+
+
+
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -28,7 +32,14 @@ export const Statistic = ({ statistic }) => {
               <stop offset="100%" stopColor="#FF6662" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <Area type="monotone" dataKey="Output" stroke="#94071D" fill="url(#uvGradient)" strokeWidth={3} />
+          <Brush
+            dataKey="dateTime"
+            height={30}
+            stroke="#8884d8"
+            startIndex={0}
+            endIndex={statistic.length - 1}
+          />
+          <Area isAnimationActive={false} type="monotone" dataKey="Output" stroke="#94071D" fill="url(#uvGradient)" strokeWidth={3} />
         </AreaChart>
       </ResponsiveContainer>
     </div>
