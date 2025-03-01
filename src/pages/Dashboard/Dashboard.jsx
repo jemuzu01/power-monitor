@@ -29,6 +29,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const LegendItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  gap: theme.spacing(1),
   marginBottom: theme.spacing(1),
 }))
 
@@ -39,16 +40,49 @@ const ColorBox = styled(Box)(({ theme, color }) => ({
   marginRight: theme.spacing(1),
 }))
 
-const CardLegend = ({ items }) => (
-  <Box mt={2} display="flex" flexWrap="wrap">
-    {items.map((item) => (
-      <LegendItem key={item.label} mr={2}>
-        <ColorBox color={item.color} />
-        <Typography variant="body2">{item.label}</Typography>
-      </LegendItem>
-    ))}
+const ElegantLabel = styled(Typography)(({ theme }) => ({
+  fontWeight: 600,
+  color: '#333',
+  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+}))
+
+const CardLegend = ({ items, minPower, maxPower, avgPower, minVoltage, maxVoltage, avgVoltage, minCurrent, maxCurrent, avgCurrent }) => (
+  <Box mt={2}>
+    <Grid container flexDirection={'column'} spacing={1}>
+      {items.map((item) => (
+        <Grid item key={item.label}>
+          <LegendItem>
+            <ColorBox color={item.color} />
+            <ElegantLabel variant="body2">{item.label}</ElegantLabel>
+            {item.label === 'POWER' && <ElegantLabel variant="body2">(min : {minPower} | max : {maxPower} | avg : {avgPower})</ElegantLabel>}
+            {item.label === 'VOLTAGE' && <ElegantLabel variant="body2">(min : {minVoltage} | max : {maxVoltage} | avg : {avgVoltage})</ElegantLabel>}
+            {item.label === 'CURRENT' && <ElegantLabel variant="body2">(min : {minCurrent} | max : {maxCurrent} | avg : {avgCurrent})</ElegantLabel>}
+          </LegendItem>
+        </Grid>
+      ))}
+    </Grid>
   </Box>
 )
+
+const getMinMaxAvg = (data, key) => {
+  const values = data.map(item => item[key])
+  const min = Math.min(...values)
+  const max = Math.max(...values)
+  const avg = values.reduce((a, b) => a + b, 0) / values.length
+  return {
+    min: min === Infinity ? 0 : min,
+    max: max === -Infinity ? 0 : max,
+    avg: isNaN(avg) ? 0 : avg.toFixed(2)
+  }
+}
+
+const getMinMaxAvgForAll = (data) => {
+  return {
+    power: getMinMaxAvg(data, 'power'),
+    voltage: getMinMaxAvg(data, 'voltage'),
+    current: getMinMaxAvg(data, 'current')
+  }
+}
 
 const Dashboard = () => {
 
@@ -64,6 +98,12 @@ const Dashboard = () => {
     { label: 'VOLTAGE', color: '#82ca9d' },
     { label: 'CURRENT', color: '#ff7300' },
   ]
+
+  const dataMinMax = getMinMaxAvgForAll(data)
+  const automotiveMinMax = getMinMaxAvgForAll(automotive)
+  const electricalMinMax = getMinMaxAvgForAll(electrical)
+  const italianMinMax = getMinMaxAvgForAll(italian)
+  const manufacturingMinMax = getMinMaxAvgForAll(manufacturing)
 
   return (
     <>
@@ -83,7 +123,18 @@ const Dashboard = () => {
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Administration</Typography>
                   <CustomArea data={data} />
-                  <CardLegend items={legendItems} />
+                  <CardLegend 
+                    items={legendItems} 
+                    minPower={dataMinMax.power.min} 
+                    maxPower={dataMinMax.power.max} 
+                    avgPower={dataMinMax.power.avg}
+                    minVoltage={dataMinMax.voltage.min } 
+                    maxVoltage={dataMinMax.voltage.max} 
+                    avgVoltage={dataMinMax.voltage.avg}
+                    minCurrent={dataMinMax.current.min} 
+                    maxCurrent={dataMinMax.current.max} 
+                    avgCurrent={dataMinMax.current.avg}
+                  />
                 </CardContent>
               </StyledCard>
             </Link>
@@ -94,7 +145,18 @@ const Dashboard = () => {
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Automotive</Typography>
                   <CustomArea data={automotive} />
-                  <CardLegend items={legendItems} />
+                  <CardLegend 
+                    items={legendItems} 
+                    minPower={automotiveMinMax.power.min} 
+                    maxPower={automotiveMinMax.power.max}
+                    avgPower={automotiveMinMax.power.avg} 
+                    minVoltage={automotiveMinMax.voltage.min} 
+                    maxVoltage={automotiveMinMax.voltage.max} 
+                    avgVoltage={automotiveMinMax.voltage.avg}
+                    minCurrent={automotiveMinMax.current.min} 
+                    maxCurrent={automotiveMinMax.current.max} 
+                    avgCurrent={automotiveMinMax.current.avg}
+                  />
                 </CardContent>
               </StyledCard>
             </Link>
@@ -105,7 +167,18 @@ const Dashboard = () => {
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Electrical</Typography>
                   <CustomArea data={electrical} />
-                  <CardLegend items={legendItems} />
+                  <CardLegend 
+                    items={legendItems} 
+                    minPower={electricalMinMax.power.min} 
+                    maxPower={electricalMinMax.power.max} 
+                    avgPower={electricalMinMax.power.avg}
+                    minVoltage={electricalMinMax.voltage.min} 
+                    maxVoltage={electricalMinMax.voltage.max} 
+                    avgVoltage={electricalMinMax.voltage.avg}
+                    minCurrent={electricalMinMax.current.min} 
+                    maxCurrent={electricalMinMax.current.max}
+                    avgCurrent={electricalMinMax.current.avg} 
+                  />
                 </CardContent>
               </StyledCard>
             </Link>
@@ -116,7 +189,18 @@ const Dashboard = () => {
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Italian</Typography>
                   <CustomArea data={italian} />
-                  <CardLegend items={legendItems} />
+                  <CardLegend 
+                    items={legendItems} 
+                    minPower={italianMinMax.power.min} 
+                    maxPower={italianMinMax.power.max} 
+                    avgPower={italianMinMax.power.avg}
+                    minVoltage={italianMinMax.voltage.min} 
+                    maxVoltage={italianMinMax.voltage.max}
+                    avgVoltage={italianMinMax.voltage.avg} 
+                    minCurrent={italianMinMax.current.min} 
+                    maxCurrent={italianMinMax.current.max} 
+                    avgCurrent={italianMinMax.current.avg}
+                  />
                 </CardContent>
               </StyledCard>
             </Link>
@@ -127,7 +211,18 @@ const Dashboard = () => {
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Manufacturing</Typography>
                   <CustomArea data={manufacturing} />
-                  <CardLegend items={legendItems} />
+                  <CardLegend 
+                    items={legendItems} 
+                    minPower={manufacturingMinMax.power.min} 
+                    maxPower={manufacturingMinMax.power.max} 
+                    avgPower={manufacturingMinMax.power.avg}
+                    minVoltage={manufacturingMinMax.voltage.min} 
+                    avgVoltage={manufacturingMinMax.voltage.avg}
+                    maxVoltage={manufacturingMinMax.voltage.max} 
+                    minCurrent={manufacturingMinMax.current.min} 
+                    maxCurrent={manufacturingMinMax.current.max} 
+                    avgCurrent={manufacturingMinMax.current.avg}
+                  />
                 </CardContent>
               </StyledCard>
             </Link>
