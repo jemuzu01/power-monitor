@@ -1,4 +1,5 @@
 export const navItems = [
+    { text: 'DASHBOARD', to: '/dashboard' },
     { text: 'ADMINISTRATION', to: '/administration' },
     { text: 'ITALIAN BLDG', to: '/italian' },
     { text: 'ELECTRICAL TECH', to: '/electrical' },

@@ -4,8 +4,9 @@ import usePowerMonitorData from '../../hooks/usePowerMonitorData ';
 import { Statistic } from '../../components/Statistic/Statistic';
 import { HeaderBtn } from '../../components/HeaderBtn/HeaderBtn';
 import dayjs from 'dayjs';
+import { Typography } from '@mui/material';
 
-export const Automotive = () => {
+ const Automotive = () => {
 
   const [data, setData] = useState({
       department:"AUTOMOTIVE",
@@ -26,9 +27,11 @@ export const Automotive = () => {
   return (
     <>
     <Grid sx={{display:'flex',flexDirection:'column',height:'100%',gap:'30px'}}>
+      <Typography variant="h5" fontWeight={800} gutterBottom>Automotive</Typography>
       <HeaderBtn onDataChange={onChangeType}/>
       <Statistic statistic={documents}/>
     </Grid>
     </>
   );
 }
+export default Automotive;

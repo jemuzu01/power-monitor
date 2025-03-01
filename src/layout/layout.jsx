@@ -1,30 +1,76 @@
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import React from 'react';
-import SideNav from '../components/Sidenav/Sidenav';
-import { Header } from '../components/Header';
-import { Outlet } from 'react-router-dom';
+import React, { useState } from "react";
+import { AppBar, Box, CssBaseline, Drawer, Toolbar } from "@mui/material";
+import { Outlet } from "react-router-dom";
+import { SideNav } from "../components/Sidenav/Sidenav";
+import { Header } from "../components/Header";
+import { useMediaQuery } from "@mui/material";
+
+const drawerWidth = 340;
 
 export const Layout = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width:768px)");
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
-    <>
-      <Box sx={{ flexDirection: 'column', flexGrow: 1, height: '100vh' }}>
-        <Grid container sx={{ flexDirection: 'column', flexGrow: 1, height: '100%', flexWrap: 'nowrap' }}>
-          <Grid item sx={{ width: '100%' }}>
-            <Header />
-          </Grid>
-          <Grid item sx={{ flexDirection: 'column', flexGrow: 1 }}>
-            <Grid container sx={{ flexDirection: 'row', height: '100%', flexWrap: 'nowrap' }}>
-              <Grid item sx={{ flexShrink: 0, width: '100%', maxWidth: '350px', bgcolor: '#DF98A5' }}>
-                <SideNav />
-              </Grid>
-              <Grid item sx={{ flexGrow: 1, height: '100%', bgcolor: '#FFF', padding: 2, overflowY: 'auto' }}>
-                <Outlet />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+    <Box sx={{ display: "flex", height: "100vh", overflowX: "hidden" }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={{ zIndex: 1201, height: "100px" }}>
+        <Toolbar sx={{ minHeight: "100px", backgroundColor: "#94071D" }}>
+          <Header onMenuClick={handleDrawerToggle} />
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Sidebar - Full-Screen Drawer */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          display: isMobile ? "block" : "none",
+          zIndex: 1202,
+          "& .MuiDrawer-paper": {
+            width: "100vw", // Full screen width
+            height: "100vh", // Full screen height
+            boxSizing: "border-box",
+            
+          },
+        }}
+      >
+        <SideNav />
+      </Drawer>
+
+      {/* Desktop Sidebar - Permanent Drawer */}
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          display: isMobile ? "none" : "block", // Hide on mobile
+          "& .MuiDrawer-paper": { width: drawerWidth, boxSizing: "border-box", mt: "100px" },
+        }}
+      >
+        <SideNav />
+      </Drawer>
+
+      {/* Main Content */}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          padding: isMobile? '15px':'20px',
+          overflowY: "auto",
+          overflowX: "hidden",
+          mt: "100px",
+          width: isMobile ? "100%" : `calc(100% - ${drawerWidth}px)`,
+        }}
+      >
+        <Outlet />
       </Box>
-    </>
+    </Box>
   );
 };

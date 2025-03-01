@@ -3,7 +3,7 @@ import { Box, Button, Drawer, List, ListItem, ListItemText, Typography } from '@
 import { navItems } from '../../data/sideNavArray';
 import { Link,useLocation  } from 'react-router-dom';
 
-function SideNav() {
+export const SideNav= () => {
 
   const location = useLocation();
 
@@ -40,4 +40,4 @@ function SideNav() {
   );
 }
 
-export default SideNav;
+
