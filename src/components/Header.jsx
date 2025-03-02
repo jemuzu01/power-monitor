@@ -15,7 +15,6 @@ export const Header = ({ onMenuClick }) => {
         backgroundColor: "#94071D",
         display: "flex",
         alignItems: "center",
-        padding: "30px",
         boxSizing: "border-box",
         gap: "20px",
       }}

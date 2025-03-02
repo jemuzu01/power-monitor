@@ -37,11 +37,10 @@ export const Layout = () => {
             width: "100vw", // Full screen width
             height: "100vh", // Full screen height
             boxSizing: "border-box",
-            
           },
         }}
       >
-        <SideNav />
+        <SideNav isMobile={isMobile} onClose={handleDrawerToggle} />
       </Drawer>
 
       {/* Desktop Sidebar - Permanent Drawer */}

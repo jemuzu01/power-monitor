@@ -46,7 +46,7 @@ const ElegantLabel = styled(Typography)(({ theme }) => ({
   textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
 }))
 
-const CardLegend = ({ items, minPower, maxPower, avgPower, minVoltage, maxVoltage, avgVoltage, minCurrent, maxCurrent, avgCurrent }) => (
+const CardLegend = ({ items, minPower, maxPower, avgPower, minVoltage, maxVoltage, avgVoltage, minCurrent, maxCurrent, avgCurrent,powerTotal }) => (
   <Box mt={2}>
     <Grid container flexDirection={'column'} spacing={1}>
       {items.map((item) => (
@@ -54,7 +54,7 @@ const CardLegend = ({ items, minPower, maxPower, avgPower, minVoltage, maxVoltag
           <LegendItem>
             <ColorBox color={item.color} />
             <ElegantLabel variant="body2">{item.label}</ElegantLabel>
-            {item.label === 'POWER' && <ElegantLabel variant="body2">(min : {minPower} | max : {maxPower} | avg : {avgPower})</ElegantLabel>}
+            {item.label === 'POWER' && <ElegantLabel variant="body2">(min : {minPower} | max : {maxPower} | avg : {avgPower} | entries : {powerTotal !== 0 ? powerTotal : 0})</ElegantLabel>}
             {item.label === 'VOLTAGE' && <ElegantLabel variant="body2">(min : {minVoltage} | max : {maxVoltage} | avg : {avgVoltage})</ElegantLabel>}
             {item.label === 'CURRENT' && <ElegantLabel variant="body2">(min : {minCurrent} | max : {maxCurrent} | avg : {avgCurrent})</ElegantLabel>}
           </LegendItem>
@@ -104,6 +104,9 @@ const Dashboard = () => {
   const electricalMinMax = getMinMaxAvgForAll(electrical)
   const italianMinMax = getMinMaxAvgForAll(italian)
   const manufacturingMinMax = getMinMaxAvgForAll(manufacturing)
+  const powerTotal = data.filter(item => item.power !== undefined).length
+
+ console.log(powerTotal , "powerTotal")
 
   return (
     <>
@@ -128,6 +131,7 @@ const Dashboard = () => {
                     minPower={dataMinMax.power.min} 
                     maxPower={dataMinMax.power.max} 
                     avgPower={dataMinMax.power.avg}
+                    powerTotal={powerTotal}
                     minVoltage={dataMinMax.voltage.min } 
                     maxVoltage={dataMinMax.voltage.max} 
                     avgVoltage={dataMinMax.voltage.avg}
@@ -149,7 +153,8 @@ const Dashboard = () => {
                     items={legendItems} 
                     minPower={automotiveMinMax.power.min} 
                     maxPower={automotiveMinMax.power.max}
-                    avgPower={automotiveMinMax.power.avg} 
+                    avgPower={automotiveMinMax.power.avg}
+                    powerTotal={automotive.filter(item => item.power !== undefined).length}
                     minVoltage={automotiveMinMax.voltage.min} 
                     maxVoltage={automotiveMinMax.voltage.max} 
                     avgVoltage={automotiveMinMax.voltage.avg}
@@ -172,6 +177,7 @@ const Dashboard = () => {
                     minPower={electricalMinMax.power.min} 
                     maxPower={electricalMinMax.power.max} 
                     avgPower={electricalMinMax.power.avg}
+                    powerTotal={electrical.filter(item => item.power !== undefined).length}
                     minVoltage={electricalMinMax.voltage.min} 
                     maxVoltage={electricalMinMax.voltage.max} 
                     avgVoltage={electricalMinMax.voltage.avg}
@@ -194,6 +200,7 @@ const Dashboard = () => {
                     minPower={italianMinMax.power.min} 
                     maxPower={italianMinMax.power.max} 
                     avgPower={italianMinMax.power.avg}
+                    powerTotal={italian.filter(item => item.power !== undefined).length}
                     minVoltage={italianMinMax.voltage.min} 
                     maxVoltage={italianMinMax.voltage.max}
                     avgVoltage={italianMinMax.voltage.avg} 
@@ -216,6 +223,7 @@ const Dashboard = () => {
                     minPower={manufacturingMinMax.power.min} 
                     maxPower={manufacturingMinMax.power.max} 
                     avgPower={manufacturingMinMax.power.avg}
+                    powerTotal={manufacturing.filter(item => item.power !== undefined).length}
                     minVoltage={manufacturingMinMax.voltage.min} 
                     avgVoltage={manufacturingMinMax.voltage.avg}
                     maxVoltage={manufacturingMinMax.voltage.max} 
