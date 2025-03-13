@@ -36,7 +36,10 @@ const usePowerMonitorData = (data) => {
    
        let docs = isSameDay
        ? allDocs.filter(doc => doc?.dateTime.toDate() >= formattedTime)  // Filter for today
-       : allDocs.filter(doc => doc?.dateTime.toDate() <= formattedTime); // Filter for past dates
+       : allDocs.filter(doc => {
+         const docDate = doc?.dateTime.toDate();
+         return docDate >= date && docDate <= formattedTime;
+       });
      
     
 

@@ -19,9 +19,9 @@ export const getStartTime = (range, date) => {
     case '7d': // 7 days ago
       startTime = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
       break;
-    case '1m': // 1 minute ago (✅ FIXED)
-      startTime = new Date(date.getTime() - 1 * 60 * 1000);
-      break;
+      case '1m': // 1 month ago
+      startTime = new Date(date.getTime() - 30 * 24 * 60 * 60 * 1000); // Approx. 1 month ago
+      break;   
     default:
       startTime = new Date(date.getTime() - 24 * 60 * 60 * 1000); // Default to 24 hours
   }
