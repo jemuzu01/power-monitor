@@ -18,7 +18,7 @@ export const Statistic = ({ statistic }) => {
   }, [statistic?.length]);
 
   return (
-    <div style={{ width: '100%', height: '100%', maxHeight: '400px' }}>
+    <div style={{ width: '100%', height: '100%', maxHeight: '500px' }}>
       <ResponsiveContainer width="100%" height="100%" >
       <AreaChart
     data={statistic}
@@ -37,14 +37,6 @@ export const Statistic = ({ statistic }) => {
         <stop offset="100%" stopColor="#FF6662" stopOpacity={0} />
       </linearGradient>
     </defs>
-    <Brush
-      dataKey="dateTime"
-      height={30}
-      stroke="#8884d8"
-      startIndex={brushRange.startIndex}
-      endIndex={brushRange.endIndex}
-      onChange={(newRange) => setBrushRange(newRange)}
-    />
     <Area
       isAnimationActive={false}
       type="monotone"

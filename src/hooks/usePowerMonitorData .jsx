@@ -8,28 +8,38 @@ const usePowerMonitorData = (data) => {
   const [documents, setDocuments] = useState([]);
 
 
-  useEffect(() => {
-   
-    const updatedDate = dayjs(data?.currentDate).hour(23).minute(59).second(59);
-    const date = new Date(updatedDate);
-    
-    const endTime = getStartTime(data?.timeRange,date);
-    const startTime =updatedDate.toDate();
- 
+  useEffect(() => { 
+
     const q = query(
       collection(firestore, "power_monitor"),
       where("department", "==", data?.department),
-      where("dateTime", "<=", startTime),
-      where("dateTime", ">=", endTime),
       orderBy("dateTime")
     );
- 
+       const unsubscribe = onSnapshot(q, (monitorSnapshot) => {
 
-    const unsubscribe = onSnapshot(q, (monitorSnapshot) => {
-       const docs = [];
+
+      const updatedDate = dayjs(data?.currentDate)
+
+      const now = dayjs();
+      const isSameDay = updatedDate.isSame(now, "day");
+
+    
+      const date = isSameDay ? new Date(now) : new Date(updatedDate);
+      
+      const formattedTime = getStartTime(data?.timeRange,date);
+
+       const allDocs = [];
        monitorSnapshot.forEach((doc) => {
-          docs.push({ id: doc.id, ...doc.data() });
+         allDocs.push({ id: doc.id, ...doc.data() });
        });
+   
+   
+       let docs = isSameDay
+       ? allDocs.filter(doc => doc?.dateTime.toDate() >= formattedTime)  // Filter for today
+       : allDocs.filter(doc => doc?.dateTime.toDate() <= formattedTime); // Filter for past dates
+     
+    
+
  
        if (data?.monitor === "POWER") {
           const powerValues = docs.map(doc => ({ Output: doc.power,dateTime:doc?.dateTime.toDate() }));
@@ -47,7 +57,7 @@ const usePowerMonitorData = (data) => {
  
     // Cleanup the listener when the component unmounts or dependencies change
     return () => unsubscribe();
- }, [data]); // Dependency on `data`
+   }, [data?.department, data?.monitor,data]);
  
 
   return documents;

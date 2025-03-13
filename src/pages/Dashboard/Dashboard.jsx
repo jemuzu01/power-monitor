@@ -91,7 +91,6 @@ const Dashboard = () => {
   const electrical = useDashboardData("ELECTRICAL")
   const italian = useDashboardData("ITALIAN")
   const manufacturing = useDashboardData("MANUFACTURING")
-  console.log(data)
 
   const legendItems = [
     { label: 'POWER', color: '#8884d8' },
@@ -105,8 +104,6 @@ const Dashboard = () => {
   const italianMinMax = getMinMaxAvgForAll(italian)
   const manufacturingMinMax = getMinMaxAvgForAll(manufacturing)
   const powerTotal = data.filter(item => item.power !== undefined).length
-
- console.log(powerTotal , "powerTotal")
 
   return (
     <>
@@ -125,7 +122,7 @@ const Dashboard = () => {
               <StyledCard>
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Administration</Typography>
-                  <CustomArea data={data} />
+                  {/* <CustomArea data={data} /> */}
                   <CardLegend 
                     items={legendItems} 
                     minPower={dataMinMax.power.min} 
@@ -148,7 +145,7 @@ const Dashboard = () => {
               <StyledCard>
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Automotive</Typography>
-                  <CustomArea data={automotive} />
+                  {/* <CustomArea data={automotive} /> */}
                   <CardLegend 
                     items={legendItems} 
                     minPower={automotiveMinMax.power.min} 
@@ -171,7 +168,7 @@ const Dashboard = () => {
               <StyledCard>
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Electrical</Typography>
-                  <CustomArea data={electrical} />
+                  {/* <CustomArea data={electrical} /> */}
                   <CardLegend 
                     items={legendItems} 
                     minPower={electricalMinMax.power.min} 
@@ -194,7 +191,7 @@ const Dashboard = () => {
               <StyledCard>
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Italian</Typography>
-                  <CustomArea data={italian} />
+                  {/* <CustomArea data={italian} /> */}
                   <CardLegend 
                     items={legendItems} 
                     minPower={italianMinMax.power.min} 
@@ -217,7 +214,7 @@ const Dashboard = () => {
               <StyledCard>
                 <CardContent>
                   <Typography variant="h6" fontWeight={600} gutterBottom>Manufacturing</Typography>
-                  <CustomArea data={manufacturing} />
+                  {/* <CustomArea data={manufacturing} /> */}
                   <CardLegend 
                     items={legendItems} 
                     minPower={manufacturingMinMax.power.min} 

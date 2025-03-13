@@ -24,9 +24,6 @@ const Administration = () => {
   };
 
   const documents = usePowerMonitorData(data);
-
-  console.log(documents)
-
   return (
     <>
     

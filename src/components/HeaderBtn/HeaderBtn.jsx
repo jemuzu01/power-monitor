@@ -23,9 +23,6 @@ export const HeaderBtn = ({ onDataChange }) => {
 
   const isMobile = useMediaQuery('(max-width:1200px)');
 
-  console.log("isMobile",isMobile)
-
-
   const onChangeMonitor = (monitorType) => {
     setActiveButton(monitorType);
     onDataChange({ monitor: monitorType });
@@ -66,7 +63,7 @@ export const HeaderBtn = ({ onDataChange }) => {
         </Grid>
         <Grid sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', backgroundColor: '#F3F7FA', width: '100%', boxSizing: 'border-box', padding: '10px', gap: '10px', borderRadius: '10px', justifyContent: 'space-between', flexWrap: 'wrap' }}>
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-            {['24h', '7d', '1m', '3m'].map((range) => (
+            {['5s','30min','24h', '7d', '1m', '3m'].map((range) => (
               <Button
                 key={range}
                 sx={{
