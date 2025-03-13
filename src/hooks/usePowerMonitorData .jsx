@@ -15,7 +15,7 @@ const usePowerMonitorData = (data) => {
       where("department", "==", data?.department),
       orderBy("dateTime")
     );
-       const unsubscribe = onSnapshot(q, (monitorSnapshot) => {
+      const unsubscribe = onSnapshot(q, (monitorSnapshot) => {
 
 
       const updatedDate = dayjs(data?.currentDate)
@@ -36,14 +36,9 @@ const usePowerMonitorData = (data) => {
    
        let docs = isSameDay
        ? allDocs.filter(doc => doc?.dateTime.toDate() >= formattedTime)  // Filter for today
-       : allDocs.filter(doc => {
-         const docDate = doc?.dateTime.toDate();
-         return docDate >= date && docDate <= formattedTime;
-       });
+       : allDocs.filter(doc => doc?.dateTime.toDate() <= date && doc?.dateTime.toDate() >= formattedTime); // Filter for past dates
      
-    
 
- 
        if (data?.monitor === "POWER") {
           const powerValues = docs.map(doc => ({ Output: doc.power,dateTime:doc?.dateTime.toDate() }));
           setDocuments(powerValues);
