@@ -18,7 +18,7 @@ export const Statistic = ({ statistic }) => {
   }, [statistic?.length]);
 
   return (
-    <div style={{ width: '100%', height: '100%', maxHeight: '500px' }}>
+    <div style={{ width: '100%', height: '100%', minHeight: '500px' }}>
       <ResponsiveContainer width="100%" height="100%" >
       <AreaChart
     data={statistic}
